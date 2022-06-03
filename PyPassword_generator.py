@@ -18,17 +18,14 @@ nr_numbers = int(input(f"How many numbers would you like?\n"))
 
 password_length = sum([nr_letters, nr_symbols, nr_numbers])
 
-numbers_list = [numbers[random.randint(0, len(numbers)-1)] for number in range(0, nr_numbers)]
-symbols_list = [symbols[random.randint(0, len(symbols)-1)] for symbol in range(0, nr_symbols)]
-letters_list = [letters[random.randint(0, len(letters)-1)] for letter in range(0, nr_letters)]
+numbers_list = [random.choice(numbers) for number in range(0, nr_numbers)]
+symbols_list = [random.choice(symbols) for symbol in range(0, nr_symbols)]
+letters_list = [random.choice(letters) for letter in range(0, nr_letters)]
 
-all_in_one = [*letters_list, *numbers_list, *symbols_list]
+password_list = [*letters_list, *numbers_list, *symbols_list]
 
-password = []
-for symbol in range(0, len(all_in_one)):
-    position = random.randint(0, len(all_in_one) - 1)
-    element = all_in_one.pop(position)
-    password.append(element)
+random.shuffle(password_list)
 
-password = ''.join(password)
-print(f'Your password is\n{password}\ntotal length of password is {len(password)}')
+password = ''.join(password_list)
+
+print(password)
