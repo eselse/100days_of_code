@@ -1,27 +1,24 @@
 import random
-from hangman_art import stages
-from hangman_art import logo
+from os import system
+from hangman_art import stages, logo
 from hangman_words import word_list
 
+print(logo)
+chosen_word = list(random.choice(word_list))
+display = ["_" for _ in range(len(chosen_word))]
+lives = 6
+tries = []
 game_over = False
 
-print(logo)
 
-chosen_word = list(random.choice(word_list))
-
-# print(''.join('_' * len(chosen_word)))
-
-display = ["_" for _ in range(len(chosen_word))]
-
-lives = 6
-
-tries = []
 while not game_over:
 
     guess = input('Guess a letter: ').lower()
 
     if guess not in chosen_word or guess in tries:
         lives -= 1
+        system("clear")
+        print(logo)
         print(stages[lives])
     for index in range(len(display)):
         if chosen_word[index] == guess:
