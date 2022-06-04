@@ -1,4 +1,5 @@
 import random
+import hangman_words
 
 stages = ['''
   +---+
@@ -57,40 +58,50 @@ stages = ['''
 =========
 ''']
 
+logo = ''' 
+ _                                             
+| |                                            
+| |__   __ _ _ __   __ _ _ __ ___   __ _ _ __  
+| '_ \ / _` | '_ \ / _` | '_ ` _ \ / _` | '_ \ 
+| | | | (_| | | | | (_| | | | | | | (_| | | | |
+|_| |_|\__,_|_| |_|\__, |_| |_| |_|\__,_|_| |_|
+                    __/ |                      
+                   |___/    '''
 
 game_over = False
 
-word_list = ['aardvark', 'baboon', 'camel']
+print(logo)
+
+word_list = hangman_words.word_list
 
 chosen_word = list(random.choice(word_list))
 
-# print(chosen_word)
-print(''.join('_' * len(chosen_word)))
+# print(''.join('_' * len(chosen_word)))
 
-display = []
+display = ["_" for _ in range(len(chosen_word))]
+
 lives = 6
 
-guess = input('Guess a letter: ')
-
-for index in range(len(chosen_word)):
-
-    if chosen_word[index] == guess:
-        display.append(guess)
-    else:
-        display.append('_')
-
-print(''.join(display))
-
+tries = []
 while not game_over:
-    guess = input('Guess a letter: ')
 
+    guess = input('Guess a letter: ').lower()
+
+    if guess not in chosen_word or guess in tries:
+        lives -= 1
+        print(stages[lives])
     for index in range(len(display)):
         if chosen_word[index] == guess:
             display[index] = guess
 
-    if '_' not in display or lives == 0:
+    if lives == 0:
+        game_over = True
+        print("You lose.")
+
+    if '_' not in display:
         game_over = True
         print("You win!")
 
+    tries.append(guess)
     print(''.join(display))
 
